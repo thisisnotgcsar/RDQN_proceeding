@@ -145,7 +145,7 @@ def hq_opt(qfunc: torch.nn.Module,
         with torch.no_grad():
             exponent = -(cost/delta)
             c = exponent.amax(dim=2, keepdim=True)
-            ebar = epsilon + delta * (c + torch.log(torch.exp(exponent-c).mean(dim=2))).mean(dim=1)
+            ebar = epsilon + delta * (c.squeeze(-1) + torch.log(torch.exp(exponent-c).mean(dim=2))).mean(dim=1)
             ebar_pos = (ebar > 0).squeeze()
 
     # Set up lambda
