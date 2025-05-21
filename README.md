@@ -12,4 +12,5 @@ TBD
 
 # Contents
 
-TBD
+1. gambling_env is the notebook for the experiments on gambling on the unit square
+2. mmd_simulator_env is the notebook for the experiments on portfolio optimisation using the simulator from [here](https://github.com/luchungi/Generative-Model-Signature-MMD)
