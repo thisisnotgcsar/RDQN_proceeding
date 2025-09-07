@@ -24,8 +24,8 @@ def metrics(returns, rf=0., ann_factor=252):
     sortino_ratio = np.mean(returns - rf) / downside_dev * ann_factor
     return vol, sharpe_ratio, downside_dev, sortino_ratio
 
-def simulate_agent_spx(qfunc, action_values, int_rate=0.024, trans_cost=0.0005):
-    spx_df = pd.read_csv('data/spx.csv', index_col=0, parse_dates=True)
+def simulate_agent_spx(df_path, qfunc, action_values, int_rate=0.024, trans_cost=0.0005):
+    spx_df = pd.read_csv(df_path, index_col=0, parse_dates=True)
 
     # renormalise spx_df
     spx_df['spx_normalised'] = spx_df['spx_normalised'] / spx_df['spx_normalised'].iloc[HIST_LEN+1]
@@ -51,7 +51,7 @@ def simulate_agent_spx(qfunc, action_values, int_rate=0.024, trans_cost=0.0005):
         transaction_return = -trans_cost * delta_position
         interest_return = (np.exp(int_rate * dt[i]) - 1) * (1-act_value)
         asset_return = act_value * (np.exp((spx_df.iloc[i, spx_df.columns.get_loc('log_return')]).squeeze()) - 1)
-        log_return = np.log(1 + interest_return + asset_return + transaction_return)
+        log_return = np.log(np.maximum(1 + interest_return + asset_return + transaction_return, 1e-8))
         log_wealth = log_wealth + log_return
         position = act_value
         log_wealth_seq.append(log_wealth)
