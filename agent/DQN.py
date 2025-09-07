@@ -7,6 +7,7 @@ from scipy.special import stdtrit
 import torch
 import torch.nn as nn
 from .robust import hq_opt
+from torch.optim import NAdam # Nadam optimizer
 
 class DQN:
     '''
@@ -588,3 +589,10 @@ class GUSRDQN(RDQN):
         self.q_updates += 1
 
         return loss
+    
+
+class PORDQN_Nadam(PORDQN):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Replace the optimizer with Nadam
+        self.optimizer = NAdam(self.q.parameters(), lr=self.lr)
