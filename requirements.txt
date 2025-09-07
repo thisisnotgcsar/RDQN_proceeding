@@ -1,0 +1,10 @@
+gym
+gymnasium
+matplotlib
+numpy
+pandas
+pandas_market_calendars
+scipy
+tensorboard
+torch
+tqdm    
